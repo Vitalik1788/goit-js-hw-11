@@ -67,7 +67,11 @@ input {
   align-items: center;
   background-color: lightblue;
   height: 100px;
-  
+    
+}
+
+.btn-load-more {
+  padding-bottom: 80px;
 }
 
 .load-more {
