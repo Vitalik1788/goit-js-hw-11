@@ -1,5 +1,5 @@
-export default function onCreateGalleryItem(response) {
-  return response.data.hits.map(
+export default function onCreateGalleryItem(data) {
+  return data.hits.map(
       ({
         webformatURL,
         largeImageURL,
@@ -9,9 +9,11 @@ export default function onCreateGalleryItem(response) {
         comments,
         downloads,
       }) => {
-      return `
+        return `
         <li class="photo-card">
-          <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+          <a href="${largeImageURL}" class="gallery__item">
+          <img src="${webformatURL}" alt="${tags}" loading="lazy" class="gallery__image" />
+          </a>
           <div class="info">
             <p class="info-item">
             <b>Likes: ${likes}</b>
