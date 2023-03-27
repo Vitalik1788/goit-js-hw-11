@@ -16,13 +16,14 @@ export default class ApiService {
         `${BASE_URL}?key=${API_KEY}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`
       );
       this.incrementPage();
-
       return response.data;
+
     } catch (error) {
       console.error(error);
     }
   }
 
+  
   incrementPage() {
     this.page += 1;
   }
@@ -46,9 +47,10 @@ export default class ApiService {
   set total(newTotal) {
     return this.totalAmount += newTotal;
   }
-
-  
-  
+ 
+  resetTotal() {
+    this.totalAmount = 0;
+  }
   
 }
 
