@@ -1,10 +1,8 @@
 import Notiflix from 'notiflix';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import ApiService from './js/fetch-function';
 import onCreateGalleryItem from './js/render-markup';
-import onGalleryListClick from './js/simple_light_box';
+import { lightbox } from './js/simple_light_box';
 
 
 const refs = {
@@ -19,14 +17,13 @@ const apiService = new ApiService();
 
 refs.form.addEventListener('submit', onSearch);
 refs.loadMore.addEventListener('click', onLoadMore);
-refs.gallery.addEventListener('click', onGalleryListClick);
 
 function onSearch(e) {
   e.preventDefault();
   apiService.query = e.currentTarget.elements.searchQuery.value.trim();
   apiService.resetPage();
   apiService.resetTotal();
-
+  
   apiService.getElements().then(data => {    
     if (data.hits.length === 0) {
       Notiflix.Notify.failure(
@@ -34,11 +31,12 @@ function onSearch(e) {
         );
         refs.galleryMarkup.innerHTML = '';
         return;
-    }
-    
-    apiService.total = data.hits.length;
-    const markup = onCreateGalleryItem(data);
-    refs.galleryMarkup.innerHTML = markup;
+      }
+      
+      apiService.total = data.hits.length;
+      const markup = onCreateGalleryItem(data);
+      refs.galleryMarkup.innerHTML = markup;
+      lightbox.refresh();
 
     if (apiService.total !== data.totalHits) {
       refs.loadMore.style.visibility = 'visible';
@@ -61,9 +59,9 @@ function onLoadMore() {
       );
     }   
     const markup = onCreateGalleryItem(data);
-    refs.galleryMarkup.insertAdjacentHTML('beforeend', markup);
-        
+    refs.galleryMarkup.insertAdjacentHTML('beforeend', markup);        
     lightbox.refresh();
+
   });
 }
 
